@@ -14,8 +14,11 @@
 		E56FECAD23C120BC006468B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56FECAB23C120BC006468B6 /* AppDelegate.swift */; };
 		E56FECAE23C120BC006468B6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56FECAC23C120BC006468B6 /* SceneDelegate.swift */; };
 		E57C6CCF23C241230033DC87 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E57C6CCE23C241230033DC87 /* Podfile */; };
+		E57C6CD123C258810033DC87 /* ContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57C6CD023C258810033DC87 /* ContactsViewModel.swift */; };
 		E5D86B6523C206120056545E /* ContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D86B6423C206120056545E /* ContactsTableViewCell.swift */; };
 		E5D86B6823C214DD0056545E /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D86B6723C214DD0056545E /* UIView+Constraints.swift */; };
+		E5E477B223C265310021FC38 /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E477B123C265310021FC38 /* ContactDetailViewController.swift */; };
+		E5E477B423C265860021FC38 /* ContactDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E477B323C265860021FC38 /* ContactDetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,8 +33,11 @@
 		E56FECAB23C120BC006468B6 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E56FECAC23C120BC006468B6 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E57C6CCE23C241230033DC87 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		E57C6CD023C258810033DC87 /* ContactsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewModel.swift; sourceTree = "<group>"; };
 		E5D86B6423C206120056545E /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
 		E5D86B6723C214DD0056545E /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
+		E5E477B123C265310021FC38 /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
+		E5E477B323C265860021FC38 /* ContactDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +83,7 @@
 		E56FEC8723C11D1B006468B6 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
+				E57C6CD223C2589F0033DC87 /* Models */,
 				E5D86B6623C2149F0056545E /* Helpers */,
 				E56FECAF23C1215A006468B6 /* Views */,
 				E56FECAA23C12087006468B6 /* ViewControllers */,
@@ -117,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				E56FEC8C23C11D1B006468B6 /* ContactsViewController.swift */,
+				E5E477B123C265310021FC38 /* ContactDetailViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -135,6 +143,15 @@
 				E5D86B6423C206120056545E /* ContactsTableViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		E57C6CD223C2589F0033DC87 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E5E477B323C265860021FC38 /* ContactDetailViewModel.swift */,
+				E57C6CD023C258810033DC87 /* ContactsViewModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		E5D86B6623C2149F0056545E /* Helpers */ = {
@@ -251,7 +268,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5D86B6523C206120056545E /* ContactsTableViewCell.swift in Sources */,
+				E57C6CD123C258810033DC87 /* ContactsViewModel.swift in Sources */,
+				E5E477B423C265860021FC38 /* ContactDetailViewModel.swift in Sources */,
 				E56FECAE23C120BC006468B6 /* SceneDelegate.swift in Sources */,
+				E5E477B223C265310021FC38 /* ContactDetailViewController.swift in Sources */,
 				E5D86B6823C214DD0056545E /* UIView+Constraints.swift in Sources */,
 				E56FECAD23C120BC006468B6 /* AppDelegate.swift in Sources */,
 				E56FEC8D23C11D1B006468B6 /* ContactsViewController.swift in Sources */,
