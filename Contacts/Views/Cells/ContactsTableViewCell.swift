@@ -38,8 +38,8 @@ class ContactsTableViewCell: UITableViewCell {
     }
 
     func addConstraintToViews() {
-        label.setContraintsWithConstants(leadingConstraint: self.leadingAnchor, paddingLeading: 20, height: 30)
-        label.setContraintsWithoutConstants(trailingConstraint: self.trailingAnchor, centerYConstraint: self.centerYAnchor)
+        label.setAnchorsWithConstants(leadingAnchor: self.leadingAnchor, paddingLeading: 20, height: 30)
+        label.setAnchorsWithoutConstants(trailingAnchor: self.trailingAnchor, centerYAnchor: self.centerYAnchor)
     }
 
 }

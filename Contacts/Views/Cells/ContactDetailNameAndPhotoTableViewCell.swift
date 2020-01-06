@@ -57,12 +57,12 @@ class ContactDetailNameAndPhotoTableViewCell: UITableViewCell {
     }
 
     func addConstraintToViews() {
-        contactPhotoImageView.setContraintsWithConstants(topConstraint: topAnchor, paddingTop: 20, width: 100, height: 100)
-        contactPhotoImageView.setContraintsWithoutConstants(centerXConstraint: centerXAnchor)
+        contactPhotoImageView.setAnchorsWithConstants(topAnchor: topAnchor, paddingTop: 20, width: 100, height: 100)
+        contactPhotoImageView.setAnchorsWithoutConstants(centerXAnchor: centerXAnchor)
 
-        nameLabel.setContraintsWithConstants(topConstraint: contactPhotoImageView.bottomAnchor, paddingTop: 10, leadingConstraint: leadingAnchor, trailingConstraint: trailingAnchor, height: 30)
+        nameLabel.setAnchorsWithConstants(topAnchor: contactPhotoImageView.bottomAnchor, paddingTop: 10, leadingAnchor: leadingAnchor, trailingAnchor: trailingAnchor, height: 30)
 
-        organizationNameLabel.setContraintsWithConstants(topConstraint: nameLabel.bottomAnchor, paddingTop: 4, leadingConstraint: leadingAnchor, trailingConstraint: trailingAnchor, height: 20)
+        organizationNameLabel.setAnchorsWithConstants(topAnchor: nameLabel.bottomAnchor, paddingTop: 4, leadingAnchor: leadingAnchor, trailingAnchor: trailingAnchor, height: 20)
     }
 
 }

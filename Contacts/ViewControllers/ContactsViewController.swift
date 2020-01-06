@@ -47,7 +47,7 @@ class ContactsViewController: UIViewController {
     }
 
     private func addConstraints() {
-        contactsTableView.setContraintsWithoutConstants(topConstraint: self.view.topAnchor, leadingConstraint: self.view.leadingAnchor, trailingConstraint: self.view.trailingAnchor, bottomConstraint: self.view.bottomAnchor)
+        contactsTableView.setAnchorsWithoutConstants(topAnchor: self.view.topAnchor, leadingAnchor: self.view.leadingAnchor, trailingAnchor: self.view.trailingAnchor, bottomAnchor: self.view.bottomAnchor)
     }
 
     @objc private func addressBookDidChange(notification: NSNotification){
@@ -133,8 +133,8 @@ extension ContactsViewController: UITableViewDelegate {
 
         headerView.addSubview(initialLetterLabel)
 
-        initialLetterLabel.setContraintsWithConstants(leadingConstraint: headerView.leadingAnchor, paddingLeading: 20, trailingConstraint: headerView.trailingAnchor, height: 20)
-        initialLetterLabel.setContraintsWithoutConstants(centerYConstraint: headerView.centerYAnchor)
+        initialLetterLabel.setAnchorsWithConstants(leadingAnchor: headerView.leadingAnchor, paddingLeading: 20, trailingAnchor: headerView.trailingAnchor, height: 20)
+        initialLetterLabel.setAnchorsWithoutConstants(centerYAnchor: headerView.centerYAnchor)
 
         return headerView
     }

@@ -12,17 +12,20 @@ import Contacts
 class ContactDetailViewModel {
 
     private var contact = CNContact()
-    var contactDetails = [ContactDetail]()
+    private var contactDetails = [ContactDetail]()
 
     let cellIdForContactDetailNameAndPhotoTableViewCell = "ContactDetailNameAndPhotoTableViewCell"
     let cellIdForContantDetailTableViewCell = "ContantDetailTableViewCell"
 
+
+// MARK:- Data set up methods
+
     func setContact(contact: CNContact) {
         self.contact = contact
-        setupDetails()
+        setupAllDetails()
     }
 
-    private func setupDetails() {
+    private func setupAllDetails() {
         for phoneNumber in contact.phoneNumbers {
             contactDetails.append(ContactDetail(detailType: .number, detailLabel: getDetailFromValue(value: phoneNumber.label), detailValue: phoneNumber.value.stringValue))
         }
@@ -37,6 +40,10 @@ class ContactDetailViewModel {
             contactDetails.append(ContactDetail(detailType: .address, detailLabel: getDetailFromValue(value: address.label), detailValue: fullAddress))
         }
 
+        setupBirthday()
+    }
+
+    private func setupBirthday() {
         if let birthday = contact.birthday {
             var date = ""
 
@@ -56,6 +63,9 @@ class ContactDetailViewModel {
         }
     }
 
+
+// MARK:- Helper methods
+
     func getHeightForView(text: String, font: UIFont, width: CGFloat) -> CGFloat {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
         label.numberOfLines = 0
@@ -68,11 +78,17 @@ class ContactDetailViewModel {
     }
 
     private func getDetailFromValue(value: String?) -> String {
+        // Value of detail is between _$!<>!$_ so we extract the import information by removing first and last 4 characters of it. Input value Ex :- _$!<Mobile>!$_
         var detail = value ?? "_$!<>!$_"
-        detail.removeFirst(4)
-        detail.removeLast(4)
-        return detail
+        if detail.count >= 8 {
+            detail.removeFirst(4)
+            detail.removeLast(4)
+        }
+        return detail.lowercased()
     }
+
+
+// MARK:- Getter methods
 
     func getProfilePhoto() -> Data? {
         return contact.imageData
@@ -84,5 +100,13 @@ class ContactDetailViewModel {
 
     func getOrganizationName() -> String {
         return contact.organizationName
+    }
+
+    func getContactDetailsCount() -> Int {
+        return contactDetails.count
+    }
+
+    func getContactDetail(forIndexPath indexPath: IndexPath) -> ContactDetail {
+        return contactDetails[indexPath.row - 1]
     }
 }

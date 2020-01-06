@@ -10,52 +10,52 @@ import UIKit
 
 extension UIView {
 
-    func setContraintsWithoutConstants(topConstraint: NSLayoutYAxisAnchor? = nil, leadingConstraint: NSLayoutXAxisAnchor? = nil, trailingConstraint: NSLayoutXAxisAnchor? = nil, bottomConstraint: NSLayoutYAxisAnchor? = nil, widthConstraint: NSLayoutDimension? = nil, heightConstraint: NSLayoutDimension? = nil, centerXConstraint: NSLayoutXAxisAnchor? = nil, centerYConstraint: NSLayoutYAxisAnchor? = nil) {
+    func setAnchorsWithoutConstants(topAnchor: NSLayoutYAxisAnchor? = nil, leadingAnchor: NSLayoutXAxisAnchor? = nil, trailingAnchor: NSLayoutXAxisAnchor? = nil, bottomAnchor: NSLayoutYAxisAnchor? = nil, widthDimension: NSLayoutDimension? = nil, heightDimension: NSLayoutDimension? = nil, centerXAnchor: NSLayoutXAxisAnchor? = nil, centerYAnchor: NSLayoutYAxisAnchor? = nil) {
 
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        if let top = topConstraint {
+        if let top = topAnchor {
             self.topAnchor.constraint(equalTo: top).isActive = true
         }
-        if let leading = leadingConstraint {
+        if let leading = leadingAnchor {
             self.leadingAnchor.constraint(equalTo: leading).isActive = true
         }
-        if let trailing = trailingConstraint {
+        if let trailing = trailingAnchor {
             self.trailingAnchor.constraint(equalTo: trailing).isActive = true
         }
-        if let bottom = bottomConstraint {
+        if let bottom = bottomAnchor {
             self.bottomAnchor.constraint(equalTo: bottom).isActive = true
         }
-        if let width = widthConstraint {
+        if let width = widthDimension {
             self.widthAnchor.constraint(equalTo: width).isActive = true
         }
-        if let height = heightConstraint {
+        if let height = heightDimension {
             self.heightAnchor.constraint(equalTo: height).isActive = true
         }
-        if let centerX = centerXConstraint {
+        if let centerX = centerXAnchor {
             self.centerXAnchor.constraint(equalTo: centerX).isActive = true
         }
-        if let centerY = centerYConstraint {
+        if let centerY = centerYAnchor {
             self.centerYAnchor.constraint(equalTo: centerY).isActive = true
         }
 
     }
 
-    func setContraintsWithConstants(topConstraint: NSLayoutYAxisAnchor? = nil, paddingTop: CGFloat = 0, bottomConstraint: NSLayoutYAxisAnchor? = nil, paddingBottom: CGFloat = 0, leadingConstraint: NSLayoutXAxisAnchor? = nil, paddingLeading: CGFloat = 0, trailingConstraint: NSLayoutXAxisAnchor? = nil, paddingTrailing: CGFloat = 0, width: CGFloat = 0, height: CGFloat = 0) {
+    func setAnchorsWithConstants(topAnchor: NSLayoutYAxisAnchor? = nil, paddingTop: CGFloat = 0, bottomAnchor: NSLayoutYAxisAnchor? = nil, paddingBottom: CGFloat = 0, leadingAnchor: NSLayoutXAxisAnchor? = nil, paddingLeading: CGFloat = 0, trailingAnchor: NSLayoutXAxisAnchor? = nil, paddingTrailing: CGFloat = 0, width: CGFloat = 0, height: CGFloat = 0) {
 
         translatesAutoresizingMaskIntoConstraints = false
 
-        if let top = topConstraint {
-            topAnchor.constraint(equalTo: top, constant: paddingTop).isActive = true
+        if let top = topAnchor {
+            self.topAnchor.constraint(equalTo: top, constant: paddingTop).isActive = true
         }
-        if let bottom = bottomConstraint {
-            bottomAnchor.constraint(equalTo: bottom, constant: -paddingBottom).isActive = true
+        if let bottom = bottomAnchor {
+            self.bottomAnchor.constraint(equalTo: bottom, constant: -paddingBottom).isActive = true
         }
-        if let leading = leadingConstraint {
-            leadingAnchor.constraint(equalTo: leading, constant: paddingLeading).isActive = true
+        if let leading = leadingAnchor {
+            self.leadingAnchor.constraint(equalTo: leading, constant: paddingLeading).isActive = true
         }
-        if let trailing = trailingConstraint {
-            trailingAnchor.constraint(equalTo: trailing, constant: -paddingTrailing).isActive = true
+        if let trailing = trailingAnchor {
+            self.trailingAnchor.constraint(equalTo: trailing, constant: -paddingTrailing).isActive = true
         }
         if width != 0 {
             widthAnchor.constraint(equalToConstant: width).isActive = true

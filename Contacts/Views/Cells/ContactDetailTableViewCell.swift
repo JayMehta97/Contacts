@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContantDetailTableViewCell: UITableViewCell {
+class ContactDetailTableViewCell: UITableViewCell {
 
     let detailNameLabel: UILabel = {
         let label = UILabel()
@@ -24,6 +24,8 @@ class ContantDetailTableViewCell: UITableViewCell {
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         return label
     }()
+
+    var detailValueLabelHeightAnchorContraint = NSLayoutConstraint()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -48,9 +50,13 @@ class ContantDetailTableViewCell: UITableViewCell {
     }
 
     func addConstraintToViews() {
-        detailNameLabel.setContraintsWithConstants(topConstraint: topAnchor, paddingTop: 5, leadingConstraint: leadingAnchor, paddingLeading: 20, trailingConstraint: trailingAnchor, paddingTrailing: 10, height: 20)
+        detailNameLabel.setAnchorsWithConstants(topAnchor: topAnchor, paddingTop: 5, leadingAnchor: leadingAnchor, paddingLeading: 20, trailingAnchor: trailingAnchor, paddingTrailing: 10, height: 20)
 
-        detailValueLabel.setContraintsWithConstants(topConstraint: detailNameLabel.topAnchor, paddingTop: 15, leadingConstraint: leadingAnchor, paddingLeading: 20, trailingConstraint: trailingAnchor, paddingTrailing: 10)
+        detailValueLabel.setAnchorsWithConstants(topAnchor: detailNameLabel.topAnchor, paddingTop: 15, leadingAnchor: leadingAnchor, paddingLeading: 20, trailingAnchor: trailingAnchor, paddingTrailing: 10)
+
+        // Storing contraint to modify it later
+        detailValueLabelHeightAnchorContraint = detailValueLabel.heightAnchor.constraint(equalToConstant: 40)
+        detailValueLabelHeightAnchorContraint.isActive = true
     }
 
 }

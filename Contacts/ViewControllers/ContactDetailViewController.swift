@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 class ContactDetailViewController: UIViewController {
 
@@ -14,7 +15,6 @@ class ContactDetailViewController: UIViewController {
 
     let contactDetailTableView: UITableView = {
         let tableView = UITableView()
-        tableView.allowsSelection = false
         return tableView
     }()
 
@@ -30,7 +30,7 @@ class ContactDetailViewController: UIViewController {
         contactDetailTableView.delegate = self
 
         contactDetailTableView.register(ContactDetailNameAndPhotoTableViewCell.self, forCellReuseIdentifier: contactDetailVM.cellIdForContactDetailNameAndPhotoTableViewCell)
-        contactDetailTableView.register(ContantDetailTableViewCell.self, forCellReuseIdentifier: contactDetailVM.cellIdForContantDetailTableViewCell)
+        contactDetailTableView.register(ContactDetailTableViewCell.self, forCellReuseIdentifier: contactDetailVM.cellIdForContantDetailTableViewCell)
     }
 
     private func addSubviews() {
@@ -38,7 +38,51 @@ class ContactDetailViewController: UIViewController {
     }
 
     private func addConstraints() {
-        contactDetailTableView.setContraintsWithoutConstants(topConstraint: self.view.topAnchor, leadingConstraint: self.view.leadingAnchor, trailingConstraint: self.view.trailingAnchor, bottomConstraint: self.view.bottomAnchor)
+        contactDetailTableView.setAnchorsWithoutConstants(topAnchor: self.view.topAnchor, leadingAnchor: self.view.leadingAnchor, trailingAnchor: self.view.trailingAnchor, bottomAnchor: self.view.bottomAnchor)
+    }
+
+    private func showActionSheetForNumber(withContact contact: ContactDetail) {
+        let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
+            // Just dismiss the action sheet
+        }
+        actionSheetController.addAction(cancelAction)
+
+        let callAction = UIAlertAction(title: "Call \(contact.detailLabel)", style: .default) { action -> Void in
+            self.callContact(withNumber: contact.detailValue)
+        }
+        actionSheetController.addAction(callAction)
+
+        // Create and add a second option action
+        let messageAction = UIAlertAction(title: "Message \(contact.detailLabel)", style: .default) { action -> Void in
+            self.sendMessage(toNumber: contact.detailValue)
+        }
+        actionSheetController.addAction(messageAction)
+
+        self.present(actionSheetController, animated: true, completion: nil)
+    }
+
+    private func callContact(withNumber number: String) {
+        let formatedNumber = number.components(separatedBy: NSCharacterSet.decimalDigits.inverted).joined(separator: "")
+
+        print("Calling \(formatedNumber)")
+
+        let phoneUrl = "tel://\(formatedNumber)"
+        if let url = URL(string: phoneUrl) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+
+    private func sendMessage(toNumber number: String) {
+        let formatedNumber = number.components(separatedBy: NSCharacterSet.decimalDigits.inverted).joined(separator: "")
+
+        print("Messaging \(formatedNumber)")
+
+        let messageVC = MFMessageComposeViewController()
+        messageVC.recipients = [formatedNumber]
+        messageVC.messageComposeDelegate = self
+        self.present(messageVC, animated: true, completion: nil)
     }
 
 }
@@ -48,16 +92,14 @@ class ContactDetailViewController: UIViewController {
 
 extension ContactDetailViewController: UITableViewDataSource {
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contactDetailVM.contactDetails.count + 1
+        // Contact details array does not contain data for image and name cell which is the first one. So we add its count explicitly (+1)
+        return contactDetailVM.getContactDetailsCount() + 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
+        // If it is the first cell then we return the image, name and organisation detail cell
         if indexPath.row == 0 {
             guard let contactDetailNameAndPhotoTableViewCell = contactDetailTableView.dequeueReusableCell(withIdentifier: contactDetailVM.cellIdForContactDetailNameAndPhotoTableViewCell, for: indexPath) as? ContactDetailNameAndPhotoTableViewCell else {
                 return UITableViewCell()
@@ -75,21 +117,22 @@ extension ContactDetailViewController: UITableViewDataSource {
             return contactDetailNameAndPhotoTableViewCell
         }
 
-        guard let contactDetailTableViewCell = contactDetailTableView.dequeueReusableCell(withIdentifier: contactDetailVM.cellIdForContantDetailTableViewCell, for: indexPath) as? ContantDetailTableViewCell else {
+        guard let contactDetailTableViewCell = contactDetailTableView.dequeueReusableCell(withIdentifier: contactDetailVM.cellIdForContantDetailTableViewCell, for: indexPath) as? ContactDetailTableViewCell else {
             return UITableViewCell()
         }
 
-        contactDetailTableViewCell.detailNameLabel.text = contactDetailVM.contactDetails[indexPath.row - 1].detailLabel
-        contactDetailTableViewCell.detailValueLabel.text = contactDetailVM.contactDetails[indexPath.row - 1].detailValue
+        let contactDetail = contactDetailVM.getContactDetail(forIndexPath: indexPath)
+        contactDetailTableViewCell.detailNameLabel.text = contactDetail.detailLabel
+        contactDetailTableViewCell.detailValueLabel.text = contactDetail.detailValue
 
-        if contactDetailVM.contactDetails[indexPath.row - 1].detailType == .address {
-            let height = contactDetailVM.getHeightForView(text: contactDetailVM.contactDetails[indexPath.row - 1].detailValue, font: UIFont.systemFont(ofSize: 17), width: tableView.frame.width)
+        if contactDetail.detailType == .address {
+            // We calculate the height for label according to our text
+            let height = contactDetailVM.getHeightForView(text: contactDetail.detailValue, font: contactDetailTableViewCell.detailValueLabel.font, width: tableView.frame.width)
+
+            // We set the older constraint to inactive state and activate a new height constraint
+            contactDetailTableViewCell.detailValueLabelHeightAnchorContraint.isActive = false
             contactDetailTableViewCell.detailValueLabel.heightAnchor.constraint(equalToConstant: height + 20).isActive = true
-        } else {
-            contactDetailTableViewCell.detailValueLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
         }
-
-        print(contactDetailVM.contactDetails[indexPath.row - 1].detailValue)
 
         return contactDetailTableViewCell
     }
@@ -104,11 +147,42 @@ extension ContactDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return (contactDetailVM.getOrganizationName().isEmpty) ? 170 : 200
-        } else if contactDetailVM.contactDetails[indexPath.row - 1].detailType == .address {
-            let height = contactDetailVM.getHeightForView(text: contactDetailVM.contactDetails[indexPath.row - 1].detailValue, font: UIFont.systemFont(ofSize: 17), width: tableView.frame.width)
+        } else if contactDetailVM.getContactDetail(forIndexPath: indexPath).detailType == .address {
+            // We calculate the height for cell according to our text
+            let height = contactDetailVM.getHeightForView(text: contactDetailVM.getContactDetail(forIndexPath: indexPath).detailValue, font: UIFont.systemFont(ofSize: 17), width: tableView.frame.width)
             return height + 40
         } else {
             return 60
         }
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        contactDetailTableView.deselectRow(at: indexPath, animated: true)
+
+        let contact = contactDetailVM.getContactDetail(forIndexPath: indexPath)
+        if contact.detailType == .number {
+            showActionSheetForNumber(withContact: contact)
+        }
+    }
+}
+
+
+// MARK:-
+
+extension ContactDetailViewController : MFMessageComposeViewControllerDelegate {
+
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        switch (result) {
+        case .cancelled:
+            print("Message was cancelled")
+        case .failed:
+            print("Message failed")
+        case .sent:
+            print("Message was sent")
+        default:
+            break
+        }
+
+        dismiss(animated: true, completion: nil)
     }
 }
