@@ -15,36 +15,31 @@ class ContactsViewModel {
     let cellId = "ContactsTableViewCell"
 
     private let indexLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-    private let unnamedString = "Unnamed"
+    private let unnamedString = "#"
 
     private var sectionTitleForContacts = [String]()
     private var contacts = [[CNContact]]()
 
-    func getNumberOfSectionsForContacts() -> Int {
-        return sectionTitleForContacts.count
-    }
 
-    func getSectionTitle(forSection section: Int) -> String {
-        return sectionTitleForContacts[section]
-    }
+    // MARK:- Helper methods
 
-    func getNumberOfContacts(forSection section: Int) -> Int {
-        return contacts[section].count
-    }
+    private func setData(fromContactsResult contactsResult: Dictionary<String, [CNContact]>) {
+        for key in contactsResult.keys.sorted() {
+            if key != self.unnamedString {
+                sectionTitleForContacts.append(key)
+                contacts.append(contactsResult[key]?.sorted(by: { (contactA, contactB) -> Bool in
+                    let nameA = contactA.givenName + contactA.familyName
+                    let nameB = contactB.givenName + contactB.familyName
 
-    func getContactName(forIndexPath indexPath: IndexPath) -> String {
-        let contact = contacts[indexPath.section][indexPath.row]
-        var contactName = contact.givenName + " " + contact.familyName
-
-        if (contact.givenName + contact.familyName).isEmpty {
-            contactName = contact.phoneNumbers.first?.value.stringValue ?? ""
+                    return nameA.uppercased() < nameB.uppercased()
+                }) ?? [])
+            }
         }
 
-        return contactName
-    }
-
-    func getContact(forIndexPath indexPath: IndexPath) -> CNContact {
-        return contacts[indexPath.section][indexPath.row]
+        if let unnamedContacts = contactsResult[self.unnamedString] {
+            sectionTitleForContacts.append(self.unnamedString)
+            contacts.append(unnamedContacts)
+        }
     }
 
     private func clearData() {
@@ -53,7 +48,7 @@ class ContactsViewModel {
     }
 
 
-    // MARK:- Contacts fetching related events
+    // MARK:- Contacts fetch methods
 
     func fetchContacts() {
         clearData()
@@ -87,23 +82,38 @@ class ContactsViewModel {
         }
     }
 
-    private func setData(fromContactsResult contactsResult: Dictionary<String, [CNContact]>) {
-        for key in contactsResult.keys.sorted() {
-            if key != self.unnamedString {
-                sectionTitleForContacts.append(key)
-                contacts.append(contactsResult[key]?.sorted(by: { (contactA, contactB) -> Bool in
-                    let nameA = contactA.givenName + contactA.familyName
-                    let nameB = contactB.givenName + contactB.familyName
 
-                    return nameA.uppercased() < nameB.uppercased()
-                }) ?? [])
-            }
+    // MARK:- Data extraction methods
+
+    func getNumberOfSectionsForContacts() -> Int {
+        return sectionTitleForContacts.count
+    }
+
+    func getSectionTitle(forSection section: Int) -> String {
+        return sectionTitleForContacts[section]
+    }
+
+    func getNumberOfContacts(forSection section: Int) -> Int {
+        return contacts[section].count
+    }
+
+    func getContactName(forIndexPath indexPath: IndexPath) -> String {
+        let contact = contacts[indexPath.section][indexPath.row]
+        var contactName = contact.givenName + " " + contact.familyName
+
+        if (contact.givenName + contact.familyName).isEmpty {
+            contactName = contact.phoneNumbers.first?.value.stringValue ?? ""
         }
 
-        if let unnamedContacts = contactsResult[self.unnamedString] {
-            sectionTitleForContacts.append(self.unnamedString)
-            contacts.append(unnamedContacts)
-        }
+        return contactName
+    }
+
+    func getContact(forIndexPath indexPath: IndexPath) -> CNContact {
+        return contacts[indexPath.section][indexPath.row]
+    }
+
+    func getAllSectionTitles() -> [String] {
+        return sectionTitleForContacts
     }
 
 }

@@ -11,7 +11,7 @@ import Contacts
 
 class ContactsViewController: UIViewController {
 
-    private var contactsVM = ContactsViewModel()
+    private let contactsVM = ContactsViewModel()
 
     private let contactsTableView: UITableView = {
         let tableView = UITableView()
@@ -30,6 +30,8 @@ class ContactsViewController: UIViewController {
 
         contactsTableView.dataSource = self
         contactsTableView.delegate = self
+
+        contactsTableView.tableFooterView = UIView()
 
         contactsTableView.register(ContactsTableViewCell.self, forCellReuseIdentifier: contactsVM.cellId)
 
@@ -50,11 +52,13 @@ class ContactsViewController: UIViewController {
         contactsTableView.setAnchorsWithoutConstants(topAnchor: self.view.topAnchor, leadingAnchor: self.view.leadingAnchor, trailingAnchor: self.view.trailingAnchor, bottomAnchor: self.view.bottomAnchor)
     }
 
+    // Gets called when any modification is done in iOS contact app
     @objc private func addressBookDidChange(notification: NSNotification){
         contactsVM.fetchContacts()
         contactsTableView.reloadData()
     }
 
+    // First it will ask user for permission via a pop-up. Second time onwards it will persist the previous decision and give result accordingly
     private func askUserForContactsPermission() {
         let store = CNContactStore()
 
@@ -65,7 +69,7 @@ class ContactsViewController: UIViewController {
             }
 
             if granted {
-                print("User  granted permission for contacts")
+                print("User has granted permission for contacts")
 
                 self.contactsVM.fetchContacts()
 
@@ -142,12 +146,18 @@ extension ContactsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         contactsTableView.deselectRow(at: indexPath, animated: true)
 
+        print(indexPath)
+
         let selectedContact = contactsVM.getContact(forIndexPath: indexPath)
         let contactDetailVC = ContactDetailViewController()
 
         contactDetailVC.contactDetailVM.setContact(contact: selectedContact)
 
         self.navigationController?.pushViewController(contactDetailVC, animated: true)
+    }
+
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return contactsVM.getAllSectionTitles()
     }
 
 }

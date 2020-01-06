@@ -13,7 +13,7 @@ class ContactDetailViewController: UIViewController {
 
     let contactDetailVM = ContactDetailViewModel()
 
-    let contactDetailTableView: UITableView = {
+    private let contactDetailTableView: UITableView = {
         let tableView = UITableView()
         return tableView
     }()
@@ -28,6 +28,8 @@ class ContactDetailViewController: UIViewController {
 
         contactDetailTableView.dataSource = self
         contactDetailTableView.delegate = self
+
+        contactDetailTableView.tableFooterView = UIView()
 
         contactDetailTableView.register(ContactDetailNameAndPhotoTableViewCell.self, forCellReuseIdentifier: contactDetailVM.cellIdForContactDetailNameAndPhotoTableViewCell)
         contactDetailTableView.register(ContactDetailTableViewCell.self, forCellReuseIdentifier: contactDetailVM.cellIdForContantDetailTableViewCell)
@@ -72,17 +74,6 @@ class ContactDetailViewController: UIViewController {
         if let url = URL(string: phoneUrl) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
-    }
-
-    private func sendMessage(toNumber number: String) {
-        let formatedNumber = number.components(separatedBy: NSCharacterSet.decimalDigits.inverted).joined(separator: "")
-
-        print("Messaging \(formatedNumber)")
-
-        let messageVC = MFMessageComposeViewController()
-        messageVC.recipients = [formatedNumber]
-        messageVC.messageComposeDelegate = self
-        self.present(messageVC, animated: true, completion: nil)
     }
 
 }
@@ -160,16 +151,30 @@ extension ContactDetailViewController: UITableViewDelegate {
         contactDetailTableView.deselectRow(at: indexPath, animated: true)
 
         let contact = contactDetailVM.getContactDetail(forIndexPath: indexPath)
+        
         if contact.detailType == .number {
             showActionSheetForNumber(withContact: contact)
+        } else if contact.detailType == .email {
+            sendEmail(toEmailAddress: contact.detailValue)
         }
     }
 }
 
 
-// MARK:-
+// MARK:- Send Message
 
 extension ContactDetailViewController : MFMessageComposeViewControllerDelegate {
+
+    private func sendMessage(toNumber number: String) {
+        let formatedNumber = number.components(separatedBy: NSCharacterSet.decimalDigits.inverted).joined(separator: "")
+
+        print("Messaging \(formatedNumber)")
+
+        let messageVC = MFMessageComposeViewController()
+        messageVC.recipients = [formatedNumber]
+        messageVC.messageComposeDelegate = self
+        self.present(messageVC, animated: true, completion: nil)
+    }
 
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         switch (result) {
@@ -184,5 +189,37 @@ extension ContactDetailViewController : MFMessageComposeViewControllerDelegate {
         }
 
         dismiss(animated: true, completion: nil)
+    }
+}
+
+
+// MARK:- Send Email
+
+extension ContactDetailViewController: MFMailComposeViewControllerDelegate {
+
+    func sendEmail(toEmailAddress emailAddress: String) {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients([emailAddress])
+
+            present(mail, animated: true)
+        } else {
+            print("Failed to send mail")
+        }
+    }
+
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        switch (result) {
+        case .cancelled:
+            print("Mail was cancelled")
+        case .failed:
+            print("Mail failed")
+        case .sent:
+            print("Mail was sent")
+        default:
+            break
+        }
+        controller.dismiss(animated: true)
     }
 }
