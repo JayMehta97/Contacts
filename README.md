@@ -26,7 +26,11 @@ On selection of a contact we push the second screen which shows details of user 
 
 All the phone numbers, email and postal addresses are displayed with their respective labels.
 
-On selecting any phone number the user gets an action sheet with options to either call or message on that number. If the user opts to send a message then a `MFMessageComposeViewController` is presented with the contact in receipient list.
+On selecting any phone number the user gets an action sheet with options to either call or message on that number. 
+
+![](assets/PhoneNumberOptions.png)
+
+If the user opts to send a message then a `MFMessageComposeViewController` is presented with the contact in receipient list.
 
 ![](assets/SendMessage.png)
 
