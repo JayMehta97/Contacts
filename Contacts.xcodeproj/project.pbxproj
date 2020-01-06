@@ -84,12 +84,12 @@
 		E56FEC7C23C11D1B006468B6 = {
 			isa = PBXGroup;
 			children = (
-				E5D2EF8A23C3B8F50006DE9C /* assets */,
 				E56FEC9F23C11F19006468B6 /* Supported Files */,
 				E56FEC8723C11D1B006468B6 /* Contacts */,
 				E56FEC8623C11D1B006468B6 /* Products */,
 				D64B5153FD4F9DEFD59F3286 /* Pods */,
 				EFD739B8D48DEDFC358E9C86 /* Frameworks */,
+				E5D2EF8A23C3B8F50006DE9C /* assets */,
 			);
 			sourceTree = "<group>";
 		};
