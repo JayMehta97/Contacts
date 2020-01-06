@@ -41,7 +41,7 @@ On selecting any of the email address user is presented a `MFMailComposeViewCont
 
 ## Libraries used
 
-###SwiftLint
+### SwiftLint
 
 It is a tool to enforce Swift style and conventions, loosely based on [GitHub's Swift Style Guide](https://github.com/github/swift-style-guide).
 
