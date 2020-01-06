@@ -6,8 +6,8 @@
 //  Copyright © 2020 Jay Mehta. All rights reserved.
 //
 
-import UIKit
 import Contacts
+import UIKit
 
 class ContactsViewController: UIViewController {
 
@@ -41,7 +41,8 @@ class ContactsViewController: UIViewController {
             self,
             selector: #selector(addressBookDidChange),
             name: NSNotification.Name.CNContactStoreDidChange,
-            object: nil)
+            object: nil
+        )
     }
 
     private func addSubviews() {
@@ -53,7 +54,7 @@ class ContactsViewController: UIViewController {
     }
 
     // Gets called when any modification is done in iOS contact app
-    @objc private func addressBookDidChange(notification: NSNotification){
+    @objc private func addressBookDidChange(notification: NSNotification) {
         contactsVM.fetchContacts()
         contactsTableView.reloadData()
     }
@@ -62,7 +63,7 @@ class ContactsViewController: UIViewController {
     private func askUserForContactsPermission() {
         let store = CNContactStore()
 
-        store.requestAccess(for: .contacts) { (granted, err) in
+        store.requestAccess(for: .contacts) { (granted: Bool, err: Error?) in
             if let err = err {
                 print("Failed to request access with error \(err)")
                 return
@@ -89,7 +90,7 @@ class ContactsViewController: UIViewController {
 }
 
 
-// MARK:- TableView DataSource events
+// MARK: - TableView DataSource events
 
 extension ContactsViewController: UITableViewDataSource {
 
@@ -113,7 +114,7 @@ extension ContactsViewController: UITableViewDataSource {
 }
 
 
-// MARK:- TableView Delegate events
+// MARK: - TableView Delegate events
 
 extension ContactsViewController: UITableViewDelegate {
 
@@ -161,6 +162,3 @@ extension ContactsViewController: UITableViewDelegate {
     }
 
 }
-
-
-

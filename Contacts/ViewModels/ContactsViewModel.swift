@@ -6,8 +6,8 @@
 //  Copyright © 2020 Jay Mehta. All rights reserved.
 //
 
-import Foundation
 import Contacts
+import Foundation
 
 class ContactsViewModel {
 
@@ -21,19 +21,18 @@ class ContactsViewModel {
     private var contacts = [[CNContact]]()
 
 
-    // MARK:- Helper methods
+    // MARK: - Helper methods
 
-    private func setData(fromContactsResult contactsResult: Dictionary<String, [CNContact]>) {
-        for key in contactsResult.keys.sorted() {
-            if key != self.unnamedString {
-                sectionTitleForContacts.append(key)
-                contacts.append(contactsResult[key]?.sorted(by: { (contactA, contactB) -> Bool in
-                    let nameA = contactA.givenName + contactA.familyName
-                    let nameB = contactB.givenName + contactB.familyName
+    private func setData(fromContactsResult contactsResult: [String: [CNContact]]) {
+        for key in contactsResult.keys.sorted() where key != self.unnamedString {
+            sectionTitleForContacts.append(key)
+            contacts.append(contactsResult[key]?.sorted { (contactA: CNContact, contactB: CNContact) -> Bool in
+                let nameA = contactA.givenName + contactA.familyName
+                let nameB = contactB.givenName + contactB.familyName
 
-                    return nameA.uppercased() < nameB.uppercased()
-                }) ?? [])
-            }
+                return nameA.uppercased() < nameB.uppercased()
+            } ?? []
+            )
         }
 
         if let unnamedContacts = contactsResult[self.unnamedString] {
@@ -48,7 +47,7 @@ class ContactsViewModel {
     }
 
 
-    // MARK:- Contacts fetch methods
+    // MARK: - Contacts fetch methods
 
     func fetchContacts() {
         clearData()
@@ -58,11 +57,10 @@ class ContactsViewModel {
         let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey, CNContactBirthdayKey, CNContactImageDataKey, CNContactIdentifierKey, CNContactMiddleNameKey, CNContactEmailAddressesKey, CNContactPostalAddressesKey, CNContactOrganizationNameKey]
         let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
 
-        var contactsWithInitials = Dictionary<String, [CNContact]>()
+        var contactsWithInitials = [String: [CNContact]]()
 
         do {
-            try store.enumerateContacts(with: request, usingBlock: { (contact, pointerToTerminateEnumeration) in
-
+            try store.enumerateContacts(with: request) { (contact: CNContact, _) in
                 var contactInitial = contact.givenName.first?.description.uppercased() ?? contact.familyName.first?.description.uppercased() ?? self.unnamedString
                 if !self.indexLetters.contains(contactInitial) {
                     contactInitial = self.unnamedString
@@ -73,17 +71,16 @@ class ContactsViewModel {
                 if contactsWithInitials[contactInitial] == nil {
                     contactsWithInitials[contactInitial] = [contact]
                 }
-            })
+            }
 
             self.setData(fromContactsResult: contactsWithInitials)
-
         } catch let err {
             print("Failed to enumerate contacts due to error \(err)")
         }
     }
 
 
-    // MARK:- Data extraction methods
+    // MARK: - Data extraction methods
 
     func getNumberOfSectionsForContacts() -> Int {
         return sectionTitleForContacts.count
@@ -115,5 +112,4 @@ class ContactsViewModel {
     func getAllSectionTitles() -> [String] {
         return sectionTitleForContacts
     }
-
 }

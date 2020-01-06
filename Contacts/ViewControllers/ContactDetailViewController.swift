@@ -6,8 +6,8 @@
 //  Copyright © 2020 Jay Mehta. All rights reserved.
 //
 
-import UIKit
 import MessageUI
+import UIKit
 
 class ContactDetailViewController: UIViewController {
 
@@ -46,18 +46,18 @@ class ContactDetailViewController: UIViewController {
     private func showActionSheetForNumber(withContact contact: ContactDetail) {
         let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ -> Void in
             // Just dismiss the action sheet
         }
         actionSheetController.addAction(cancelAction)
 
-        let callAction = UIAlertAction(title: "Call \(contact.detailLabel)", style: .default) { action -> Void in
+        let callAction = UIAlertAction(title: "Call \(contact.detailLabel)", style: .default) { _ -> Void in
             self.callContact(withNumber: contact.detailValue)
         }
         actionSheetController.addAction(callAction)
 
         // Create and add a second option action
-        let messageAction = UIAlertAction(title: "Message \(contact.detailLabel)", style: .default) { action -> Void in
+        let messageAction = UIAlertAction(title: "Message \(contact.detailLabel)", style: .default) { _ -> Void in
             self.sendMessage(toNumber: contact.detailValue)
         }
         actionSheetController.addAction(messageAction)
@@ -79,7 +79,7 @@ class ContactDetailViewController: UIViewController {
 }
 
 
-// MARK:- TableView DataSource events
+// MARK: - TableView DataSource events
 
 extension ContactDetailViewController: UITableViewDataSource {
 
@@ -131,7 +131,7 @@ extension ContactDetailViewController: UITableViewDataSource {
 }
 
 
-// MARK:- TableView Delegate events
+// MARK: - TableView Delegate events
 
 extension ContactDetailViewController: UITableViewDelegate {
 
@@ -151,7 +151,7 @@ extension ContactDetailViewController: UITableViewDelegate {
         contactDetailTableView.deselectRow(at: indexPath, animated: true)
 
         let contact = contactDetailVM.getContactDetail(forIndexPath: indexPath)
-        
+
         if contact.detailType == .number {
             showActionSheetForNumber(withContact: contact)
         } else if contact.detailType == .email {
@@ -161,9 +161,9 @@ extension ContactDetailViewController: UITableViewDelegate {
 }
 
 
-// MARK:- Send Message
+// MARK: - Send Message
 
-extension ContactDetailViewController : MFMessageComposeViewControllerDelegate {
+extension ContactDetailViewController: MFMessageComposeViewControllerDelegate {
 
     private func sendMessage(toNumber number: String) {
         let formatedNumber = number.components(separatedBy: NSCharacterSet.decimalDigits.inverted).joined(separator: "")
@@ -177,7 +177,7 @@ extension ContactDetailViewController : MFMessageComposeViewControllerDelegate {
     }
 
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-        switch (result) {
+        switch result {
         case .cancelled:
             print("Message was cancelled")
         case .failed:
@@ -193,7 +193,7 @@ extension ContactDetailViewController : MFMessageComposeViewControllerDelegate {
 }
 
 
-// MARK:- Send Email
+// MARK: - Send Email
 
 extension ContactDetailViewController: MFMailComposeViewControllerDelegate {
 
@@ -210,7 +210,7 @@ extension ContactDetailViewController: MFMailComposeViewControllerDelegate {
     }
 
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        switch (result) {
+        switch result {
         case .cancelled:
             print("Mail was cancelled")
         case .failed:

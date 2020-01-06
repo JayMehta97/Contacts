@@ -1,3 +1,4 @@
+// swiftlint:disable identifier_name
 //
 //  ContactDetailViewModel.swift
 //  Contacts
@@ -6,8 +7,8 @@
 //  Copyright © 2020 Jay Mehta. All rights reserved.
 //
 
-import UIKit
 import Contacts
+import UIKit
 
 class ContactDetailViewModel {
 
@@ -18,7 +19,7 @@ class ContactDetailViewModel {
     let cellIdForContantDetailTableViewCell = "ContantDetailTableViewCell"
 
 
-    // MARK:- Data set up methods
+    // MARK: - Data set up methods
 
     func setContact(contact: CNContact) {
         self.contact = contact
@@ -64,7 +65,7 @@ class ContactDetailViewModel {
     }
 
 
-    // MARK:- Helper methods
+    // MARK: - Helper methods
 
     func getHeightForView(text: String, font: UIFont, width: CGFloat) -> CGFloat {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
@@ -88,7 +89,7 @@ class ContactDetailViewModel {
     }
 
 
-    // MARK:- Data extraction methods
+    // MARK: - Data extraction methods
 
     func getProfilePhoto() -> Data? {
         return contact.imageData
