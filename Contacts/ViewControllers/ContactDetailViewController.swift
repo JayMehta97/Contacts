@@ -150,6 +150,10 @@ extension ContactDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         contactDetailTableView.deselectRow(at: indexPath, animated: true)
 
+        if indexPath.row == 0 {
+            return
+        }
+
         let contact = contactDetailVM.getContactDetail(forIndexPath: indexPath)
 
         if contact.detailType == .number {
