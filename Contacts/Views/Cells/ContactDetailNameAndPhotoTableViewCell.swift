@@ -14,7 +14,7 @@ class ContactDetailNameAndPhotoTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 50
         imageView.layer.masksToBounds = true
-        imageView.backgroundColor = .systemGray5
+        imageView.backgroundColor = #colorLiteral(red: 0.8980000019, green: 0.8980000019, blue: 0.9179999828, alpha: 1)
         return imageView
     }()
 

@@ -125,7 +125,7 @@ extension ContactsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView: UIView = {
             let view = UIView()
-            view.backgroundColor = .systemGray5
+            view.backgroundColor = #colorLiteral(red: 0.8980000019, green: 0.8980000019, blue: 0.9179999828, alpha: 1)
             return view
         }()
 
@@ -146,8 +146,6 @@ extension ContactsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         contactsTableView.deselectRow(at: indexPath, animated: true)
-
-        print(indexPath)
 
         let selectedContact = contactsVM.getContact(forIndexPath: indexPath)
         let contactDetailVC = ContactDetailViewController()
