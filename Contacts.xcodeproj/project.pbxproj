@@ -20,8 +20,8 @@
 		E5D2EF8C23C3B97D0006DE9C /* ContactsList.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D2EF8B23C3B97D0006DE9C /* ContactsList.png */; };
 		E5D2EF8E23C3B99E0006DE9C /* ContactDetails.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D2EF8D23C3B99E0006DE9C /* ContactDetails.png */; };
 		E5D2EF9023C3B9C00006DE9C /* PhoneNumberOptions.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D2EF8F23C3B9C00006DE9C /* PhoneNumberOptions.png */; };
-		E5D2EF9323C3BC1E0006DE9C /* SendMail.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D2EF9123C3BC1D0006DE9C /* SendMail.png */; };
-		E5D2EF9423C3BC1E0006DE9C /* SendMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D2EF9223C3BC1D0006DE9C /* SendMessage.png */; };
+		E5D2EF9323C3BC1E0006DE9C /* SendMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D2EF9123C3BC1D0006DE9C /* SendMessage.png */; };
+		E5D2EF9423C3BC1E0006DE9C /* SendMail.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D2EF9223C3BC1D0006DE9C /* SendMail.png */; };
 		E5D86B6523C206120056545E /* ContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D86B6423C206120056545E /* ContactsTableViewCell.swift */; };
 		E5D86B6823C214DD0056545E /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D86B6723C214DD0056545E /* UIView+Constraints.swift */; };
 		E5E477B223C265310021FC38 /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E477B123C265310021FC38 /* ContactDetailViewController.swift */; };
@@ -49,8 +49,8 @@
 		E5D2EF8B23C3B97D0006DE9C /* ContactsList.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContactsList.png; sourceTree = "<group>"; };
 		E5D2EF8D23C3B99E0006DE9C /* ContactDetails.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContactDetails.png; sourceTree = "<group>"; };
 		E5D2EF8F23C3B9C00006DE9C /* PhoneNumberOptions.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PhoneNumberOptions.png; sourceTree = "<group>"; };
-		E5D2EF9123C3BC1D0006DE9C /* SendMail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SendMail.png; sourceTree = "<group>"; };
-		E5D2EF9223C3BC1D0006DE9C /* SendMessage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SendMessage.png; sourceTree = "<group>"; };
+		E5D2EF9123C3BC1D0006DE9C /* SendMessage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SendMessage.png; sourceTree = "<group>"; };
+		E5D2EF9223C3BC1D0006DE9C /* SendMail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SendMail.png; sourceTree = "<group>"; };
 		E5D86B6423C206120056545E /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
 		E5D86B6723C214DD0056545E /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
 		E5E477B123C265310021FC38 /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
@@ -186,8 +186,8 @@
 				E5D2EF8B23C3B97D0006DE9C /* ContactsList.png */,
 				E5D2EF8D23C3B99E0006DE9C /* ContactDetails.png */,
 				E5D2EF8F23C3B9C00006DE9C /* PhoneNumberOptions.png */,
-				E5D2EF9123C3BC1D0006DE9C /* SendMail.png */,
-				E5D2EF9223C3BC1D0006DE9C /* SendMessage.png */,
+				E5D2EF9123C3BC1D0006DE9C /* SendMessage.png */,
+				E5D2EF9223C3BC1D0006DE9C /* SendMail.png */,
 			);
 			path = assets;
 			sourceTree = "<group>";
@@ -278,14 +278,14 @@
 			files = (
 				E5E56D1B23C2D853007E63A4 /* .swiftlint.yml in Resources */,
 				E57C6CCF23C241230033DC87 /* Podfile in Resources */,
-				E5D2EF9423C3BC1E0006DE9C /* SendMessage.png in Resources */,
+				E5D2EF9423C3BC1E0006DE9C /* SendMail.png in Resources */,
 				E5D2EF9023C3B9C00006DE9C /* PhoneNumberOptions.png in Resources */,
 				E5D2EF8923C3A3610006DE9C /* README.md in Resources */,
 				E5D2EF8C23C3B97D0006DE9C /* ContactsList.png in Resources */,
 				E56FEC9523C11D1E006468B6 /* LaunchScreen.storyboard in Resources */,
 				E56FEC9223C11D1E006468B6 /* Assets.xcassets in Resources */,
 				E5D2EF8E23C3B99E0006DE9C /* ContactDetails.png in Resources */,
-				E5D2EF9323C3BC1E0006DE9C /* SendMail.png in Resources */,
+				E5D2EF9323C3BC1E0006DE9C /* SendMessage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
