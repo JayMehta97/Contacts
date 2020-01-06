@@ -7,22 +7,23 @@
 //
 
 import UIKit
+import Contacts
 
 class ContactsViewController: UIViewController {
 
-    var contactsVM = ContactsViewModel()
+    private var contactsVM = ContactsViewModel()
 
-    let contactsTableView: UITableView = {
+    private let contactsTableView: UITableView = {
         let tableView = UITableView()
         return tableView
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         // Do any additional setup after loading the view.
 
         self.title = contactsVM.titleForVC
-        self.navigationController?.navigationBar.prefersLargeTitles = true
 
         addSubviews()
         addConstraints()
@@ -32,7 +33,7 @@ class ContactsViewController: UIViewController {
 
         contactsTableView.register(ContactsTableViewCell.self, forCellReuseIdentifier: contactsVM.cellId)
 
-        contactsVM.fetchContacts()
+        askUserForContactsPermission()
 
         NotificationCenter.default.addObserver(
             self,
@@ -41,18 +42,40 @@ class ContactsViewController: UIViewController {
             object: nil)
     }
 
-    func addSubviews() {
+    private func addSubviews() {
         view.addSubview(contactsTableView)
     }
 
-    func addConstraints() {
+    private func addConstraints() {
         contactsTableView.setContraintsWithoutConstants(topConstraint: self.view.topAnchor, leadingConstraint: self.view.leadingAnchor, trailingConstraint: self.view.trailingAnchor, bottomConstraint: self.view.bottomAnchor)
     }
 
-    @objc func addressBookDidChange(notification: NSNotification){
-        contactsVM.clearData()
+    @objc private func addressBookDidChange(notification: NSNotification){
         contactsVM.fetchContacts()
         contactsTableView.reloadData()
+    }
+
+    private func askUserForContactsPermission() {
+        let store = CNContactStore()
+
+        store.requestAccess(for: .contacts) { (granted, err) in
+            if let err = err {
+                print("Failed to request access with error \(err)")
+                return
+            }
+
+            if granted {
+                print("User  granted permission for contacts")
+
+                self.contactsVM.fetchContacts()
+
+                DispatchQueue.main.async {
+                    self.contactsTableView.reloadData()
+                }
+            } else {
+                print("Access denied..")
+            }
+        }
     }
 
     deinit {
@@ -80,7 +103,6 @@ extension ContactsViewController: UITableViewDataSource {
         }
 
         contactsTableViewCell.label.text = contactsVM.getContactName(forIndexPath: indexPath)
-
         return contactsTableViewCell
     }
 
@@ -115,6 +137,17 @@ extension ContactsViewController: UITableViewDelegate {
         initialLetterLabel.setContraintsWithoutConstants(centerYConstraint: headerView.centerYAnchor)
 
         return headerView
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        contactsTableView.deselectRow(at: indexPath, animated: true)
+
+        let selectedContact = contactsVM.getContact(forIndexPath: indexPath)
+        let contactDetailVC = ContactDetailViewController()
+
+        contactDetailVC.contactDetailVM.setContact(contact: selectedContact)
+
+        self.navigationController?.pushViewController(contactDetailVC, animated: true)
     }
 
 }

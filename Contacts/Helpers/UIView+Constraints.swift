@@ -49,13 +49,13 @@ extension UIView {
             topAnchor.constraint(equalTo: top, constant: paddingTop).isActive = true
         }
         if let bottom = bottomConstraint {
-            bottomAnchor.constraint(equalTo: bottom, constant: paddingBottom).isActive = true
+            bottomAnchor.constraint(equalTo: bottom, constant: -paddingBottom).isActive = true
         }
         if let leading = leadingConstraint {
             leadingAnchor.constraint(equalTo: leading, constant: paddingLeading).isActive = true
         }
         if let trailing = trailingConstraint {
-            trailingAnchor.constraint(equalTo: trailing, constant: paddingTrailing).isActive = true
+            trailingAnchor.constraint(equalTo: trailing, constant: -paddingTrailing).isActive = true
         }
         if width != 0 {
             widthAnchor.constraint(equalToConstant: width).isActive = true
